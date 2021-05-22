@@ -9,6 +9,10 @@ import { CinemaService } from '../services/cinema.service';
 export class CinemaComponent implements OnInit {
 
   public villes : any;
+  public cinemas: any;
+  public salles: any;
+  public currentVille: any;
+  public currentCinema: any;
 
   constructor(private cinemaService: CinemaService) { }
 
@@ -20,4 +24,21 @@ export class CinemaComponent implements OnInit {
     })
   }
 
+  onGetCinemas(v: any) {
+    this.currentVille = v;
+    this.cinemaService.getCinema(v).subscribe((data: any)=>{
+      this.cinemas = data;
+    },(err: any)=>{
+      console.log(err);
+    });
+  }
+
+  onGetSalles(c: any) {
+    this.currentCinema = c;
+    this.cinemaService.getSalles(c).subscribe((data: any)=>{
+      this.salles = data;
+    },(err: any)=>{
+      console.log(err);
+    });
+  }
 }

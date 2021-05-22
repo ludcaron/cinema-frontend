@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: "cinema", component: CinemaComponent}
+  { path: "cinema", component: CinemaComponent }
 ]
 
 @NgModule({
