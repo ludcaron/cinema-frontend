@@ -1,1 +1,33 @@
-<p>cinema works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <ul class="list-group" *ngIf="villes">
+        <li [ngClass]="(v == currentVille)?'active':''" class="list-group-item clickable" *ngFor="let v of villes._embedded.villes" (click)="onGetCinemas(v)">
+          {{v.name}}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-8">
+      <div class="card card-default">
+        <div class="card-header">Liste des cinemas</div>
+        <div class="card-body">
+          <ul *ngIf="cinemas" class="nav nav-pills nav-fill">
+            <li class="nav-item  clickable" *ngFor="let c of cinemas._embedded.cinemas" (click)="onGetSalles(c)">
+              <a [ngClass]="(c == currentCinema)?'active':''" (click)="onGetSalles(c)" class="nav-link">
+                {{c.name}}
+              </a>
+            </li>
+          </ul>
+          <div class="row" *ngIf="salles">
+            <div *ngFor="let s of salles._embedded.salles">
+              <div class="card card-default">
+                <div class="card-header">{{s.name}}</div>
+                <div class="card-body"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
