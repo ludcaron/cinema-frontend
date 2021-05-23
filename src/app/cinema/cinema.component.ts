@@ -13,6 +13,8 @@ export class CinemaComponent implements OnInit {
   public salles: any;
   public currentVille: any;
   public currentCinema: any;
+  public currentProjection: any;
+  public host: String = this.cinemaService.host;
 
   constructor(private cinemaService: CinemaService) { }
 
@@ -37,6 +39,13 @@ export class CinemaComponent implements OnInit {
     this.currentCinema = c;
     this.cinemaService.getSalles(c).subscribe((data: any)=>{
       this.salles = data;
+      this.salles._embedded.salles.forEach((salle: any) => {
+        this.cinemaService.getProjections(salle).subscribe((data: any)=>{
+          salle.projections = data;
+        },(err: any)=>{
+          console.log(err);
+        });
+      });
     },(err: any)=>{
       console.log(err);
     });
