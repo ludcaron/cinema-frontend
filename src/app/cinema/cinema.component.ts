@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CinemaService } from '../services/cinema.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-cinema',
@@ -14,6 +15,7 @@ export class CinemaComponent implements OnInit {
   public currentVille: any;
   public currentCinema: any;
   public currentProjection: any;
+  public selectedTickets: any;
   public host: String = this.cinemaService.host;
 
   constructor(private cinemaService: CinemaService) { }
@@ -28,6 +30,7 @@ export class CinemaComponent implements OnInit {
 
   onGetCinemas(v: any) {
     this.currentVille = v;
+    this.salles = undefined;
     this.cinemaService.getCinema(v).subscribe((data: any)=>{
       this.cinemas = data;
     },(err: any)=>{
@@ -50,4 +53,54 @@ export class CinemaComponent implements OnInit {
       console.log(err);
     });
   }
+
+  onGetTicketsPlaces(p: any) {
+    this.currentProjection=p;
+    this.cinemaService.getTicketsPlaces(p).subscribe((data: any)=>{
+      this.currentProjection.places = data;
+    },(err: any)=>{
+      console.log(err);
+    });
+  }
+
+  onSelectTicket(t: any){
+    if(!t.selected){
+      t.selected=true;
+      this.selectedTickets.push(t);
+    }
+    else{
+      t.selected=false;
+      this.selectedTickets.splice(this.selectedTickets.indexOf(t),1);
+    }
+
+  }
+
+  getTicketClass(t: any){
+    let str="btn ticket ";
+    if(t.reserve==true){
+      str+="btn-danger";
+    }
+    else if(t.selected){
+              str+="btn-warning";
+          }
+    else{
+        str+="btn-success";
+      }
+    return str;
+  }
+
+  onPayerTickets(dataForm: any){
+    let tickets: any=[];
+    this.selectedTickets.forEach((t: any) => {
+      tickets.push(t.id);
+    });
+    dataForm.tickets = tickets;
+    this.cinemaService.payerTickets(dataForm).subscribe(data=>{
+                                    alert("Tickets reservés avec succès !");
+                                    this.onGetTicketsPlaces(this.currentProjection);
+                                                  }, err=>{
+                                       console.log(err);
+                                                              });
+  }
+
 }
