@@ -15,7 +15,7 @@ export class CinemaComponent implements OnInit {
   public currentVille: any;
   public currentCinema: any;
   public currentProjection: any;
-  public selectedTickets: any;
+  public selectedTickets: any = [];
   public host: String = this.cinemaService.host;
 
   constructor(private cinemaService: CinemaService) { }
@@ -57,7 +57,8 @@ export class CinemaComponent implements OnInit {
   onGetTicketsPlaces(p: any) {
     this.currentProjection=p;
     this.cinemaService.getTicketsPlaces(p).subscribe((data: any)=>{
-      this.currentProjection.places = data;
+      this.currentProjection.tickets = data;
+      this.selectedTickets = [];
     },(err: any)=>{
       console.log(err);
     });

@@ -16,14 +16,9 @@
       <div class="card card-default">
         <div class="card-header">Liste des cinemas</div>
         <div class="card-body">
-          <ul *ngIf="cinemas" class="list-group list-group-horizontal">
-            <li
-              [ngClass]="c == currentCinema ? 'active' : ''"
-              class="list-group-item clickable"
-              *ngFor="let c of cinemas._embedded.cinemas"
-              (click)="onGetSalles(c)"
-            >
-              {{ c.name }}
+          <ul *ngIf="cinemas" class="nav nav-pills">
+            <li *ngFor="let c of cinemas._embedded.cinemas" class="nav-item clickable">
+              <a [ngClass]="c==currentCinema?'active':''" class="nav-link" (click)="onGetSalles(c)">{{c.name}}</a>
             </li>
           </ul>
           <div class="row" *ngIf="salles">
@@ -56,19 +51,18 @@
                       </ul>
                     </div>
                     <div *ngIf="currentProjection">
-                      <div *ngIf="s.id == currentProjection.salle.id">
+                      <div *ngIf="currentProjection.salle.id == s.id">
                         <div class="row" *ngIf="currentProjection.tickets">
-                        {{currentProjection.tickets._embedded}}
-                        <!-- <button
-                            class="{{ getTicketClass(t) }}"
+                         <button
+                            class="{{ getTicketClass(t) }} btn"
                             (click)="onSelectTicket(t)"
                             [disabled]="t.reserve == true"
-                            *ngFor=" let t of currentProjection.tickets._embedded.tickets">
+                            *ngFor=" let t of currentProjection.tickets._embedded.tickets " >
                             {{t.place.numero}}
-                          </button> -->
+                          </button>
                         </div>
-                        <!-- <div *ngIf="selectedTickets.length>0">
-                          <form ngForm #f (ngSubmit)="onPayerTickets(f.value)">
+                         <div *ngIf="selectedTickets.length > 0">
+                          <form  #f="ngForm" (ngSubmit)="onPayerTickets(f.value)">
                             <div class="form-group">
                               <label class="control-label">Nom Client</label>
                               <input class="form-control" type="text" name="nomClient" ngModel>
@@ -79,7 +73,7 @@
                             </div>
                             <button type="submit" class="btn btn-success">Payer</button>
                           </form>
-                        </div> -->
+                        </div>
                       </div>
                     </div>
                   </div>
