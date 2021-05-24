@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CinemaService } from '../services/cinema.service';
-import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-cinema',
